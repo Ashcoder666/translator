@@ -65,3 +65,20 @@ button{
   color: white;
 
 }
+@media (max-width:460px) {
+  
+  .content-body{
+    flex-direction: column;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  button{
+    width: 300px;
+  }
+  .App h1{
+    font-size: 40px;
+    margin-bottom: 50px;
+  }
+
+}
