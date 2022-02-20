@@ -2,36 +2,52 @@
 import './App.css';
 import Translator from './Translator'
 import Axios from 'axios'
+import React,{useState} from 'react';
+// import qs from 'qs'
 
 function App() {
-  const fetchdata = async () =>{
+  const [newText,setNewtext] = useState('')
+  const fetchdata = async (from,to) =>{
 
-
-
-    var options = {
-      method: 'POST',
-      url: 'https://google-translate1.p.rapidapi.com/language/translate/v2/detect',
-      headers: {
-        'content-type': 'application/x-www-form-urlencoded',
-        'accept-encoding': 'application/gzip',
-        'x-rapidapi-host': 'google-translate1.p.rapidapi.com',
-        'x-rapidapi-key': 'c256ecdf6emshcedc5242d337c13p19a862jsnee79af877651'
-      },
-      data: {q: 'English is hard, but detectably so'}
-    };
+    const qs = obj => {
+      return new URLSearchParams(obj).toString();
+      }
     
-    Axios.request(options).then(function (response) {
-      console.log(response.data);
-    }).catch(function (error) {
-      console.error(error);
-    });
-
+   const  headers= {
+    'content-type': 'application/x-www-form-urlencoded',
+    // 'accept-encoding': 'application/gzip',
+    'x-rapidapi-host': 'google-translate1.p.rapidapi.com',
+    'x-rapidapi-key': 'c256ecdf6emshcedc5242d337c13p19a862jsnee79af877651'
+  }   
+  const data = qs({
+    q: from,
+    source: "en",
+    target: to,
+    })
+     
+    
+    
+    
+    Axios.post('https://google-translate1.p.rapidapi.com/language/translate/v2',
+    data,
+    {
+     headers:headers
+    }).then(res=>{
+      try {
+        // console.log(res.data.data.translations[0].translatedText)
+        setNewtext(res.data.data.translations[0].translatedText)
+      } catch (error) {
+        console.log(error)
+        alert(error)
+      }
+    })
 
   }
+ 
   return (
     <div className="App">
       <h1>TRANSLATOR +</h1>
-     <Translator />
+     <Translator fetchdata={fetchdata} newText={newText}/>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 
-const Translator = () => {
+const Translator = ({fetchdata,newText}) => {
     const [fromText,setFromText] = useState('')
     const [toLang,setToLang] = useState("en")
     
@@ -12,22 +12,24 @@ const Translator = () => {
                 <option value="en" >English</option>
                
             </select>
-            <textarea className='text-area one' ></textarea>
+            <textarea className='text-area one'  onChange={(e)=>{setFromText(e.target.value)}} ></textarea>
         </div>
         <div className='row'>
-            <select className='select'>
-                <option value="">English</option>
-                <option value="">Hindi</option>
-                <option value="">Malayalam</option>
-                <option value="">Spanish</option>
-                <option value="">Arabic</option>
+            <select className='select' value={toLang} onChange={(e)=>setToLang(e.target.value)}>
+                <option value="en">SELECT</option>
+                <option value="hi">Hindi</option>
+                <option value="mal">Malayalam</option>
+                <option value="es">Spanish</option>
+                <option value="ar">Arabic</option>
             </select>
-            <textarea readOnly className='text-area two' ></textarea>
+            <textarea readOnly className='text-area two' value={newText} ></textarea>
                 
         </div>
       
     </div>
-    <button>Translate</button>
+    <button onClick={()=>{
+        fetchdata(fromText,toLang)
+    }}>Translate</button>
     </>
   )
 }
